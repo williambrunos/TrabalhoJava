@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
  *  Matrícula: 497345
  *  Professor: Wendley Souza da Silva
  */
+
 public class Principal extends javax.swing.JFrame {
     //Criação de instâncias globais da classe Contas(conta-comum),
     //ContaPoupanca e Conta Especial:
@@ -16,7 +17,7 @@ public class Principal extends javax.swing.JFrame {
     //Criação de variáveis globais úteis no desenvolvimento(taxa e multa):
     // Penalty => multa
     static double tax;
-    static int penalty;
+    static double penalty;
     
     /**
      * Creates new form Principal
@@ -39,8 +40,8 @@ public class Principal extends javax.swing.JFrame {
         btnDeposit = new javax.swing.JButton();
         btnTransfer = new javax.swing.JButton();
         btnReajust = new javax.swing.JButton();
-        btnVerSaldo = new javax.swing.JButton();
         btnQuit = new javax.swing.JButton();
+        btnSaldos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,10 +65,25 @@ public class Principal extends javax.swing.JFrame {
         btnTransfer.setText("Transferência");
 
         btnReajust.setText("Reajustar");
-
-        btnVerSaldo.setText("Ver saldos");
+        btnReajust.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReajustActionPerformed(evt);
+            }
+        });
 
         btnQuit.setText("Sair");
+        btnQuit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitActionPerformed(evt);
+            }
+        });
+
+        btnSaldos.setText("Ver saldos");
+        btnSaldos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaldosActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,16 +96,16 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(lblTexto))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(86, 86, 86)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnTransfer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnVerSaldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSaque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnSaque, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSaldos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnReajust, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
                             .addComponent(btnDeposit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnQuit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(117, Short.MAX_VALUE))
+                .addGap(117, 117, 117))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -106,42 +122,93 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(btnReajust))
                 .addGap(28, 28, 28)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVerSaldo)
-                    .addComponent(btnQuit))
+                    .addComponent(btnQuit)
+                    .addComponent(btnSaldos))
                 .addContainerGap(93, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // DÚVIDA == FAZER POR ÚLTIMO => SAQUE
+    // Método de saque:
     private void btnSaqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaqueActionPerformed
         
-        int countNumber = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número da conta: "));
-        double value = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite o valor: R$ "));
-                
-        if( cc.getNumber() == countNumber ){
-            if( cc.withdraw(value) == false ){
-                JOptionPane.showMessageDialog(null, "Saldo insuficiente na conta nº "+countNumber, "Saldo insuficiente", JOptionPane.ERROR_MESSAGE);
-            }else{
-                JOptionPane.showMessageDialog(null, "Saque realizado com sucesso!", "Sucesso no saque", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }else if( cp.getNumber() == countNumber ){
-            if( cp.withdraw(value) == false ){
-                JOptionPane.showMessageDialog(null, "Saldo insuficiente na conta nº "+countNumber, "Saldo insuficiente", JOptionPane.ERROR_MESSAGE);
-            }else{
-                JOptionPane.showMessageDialog(null, "Saque realizado com sucesso!", "Sucesso no saque", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }else if( ce.getNumber() == countNumber ){
-            if( ce.withdraw(value) == false ){
-                JOptionPane.showMessageDialog(null, "Saldo insuficiente na conta nº "+countNumber, "Saldo insuficiente", JOptionPane.ERROR_MESSAGE);
-            }else{
-                JOptionPane.showMessageDialog(null, "Saque realizado com sucesso!", "Sucesso no saque", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }else{
-            JOptionPane.showMessageDialog(null, "Número "+countNumber+" de conta inválido", "Número inválido", JOptionPane.ERROR_MESSAGE);
-        }
+        //Variável que guarda o número da conta cujo saque será realizado:
+        int countNumber = Integer.parseInt(JOptionPane.showInputDialog("Digite o número da conta: ", "Saque de conta-especial"));
+        
+        //Se o número da conta for válido para o número da conta especial, o procedimento será realizado, se não uma mensagem
+        //de erro aparecerá na tela:
+        if( countNumber == ce.getNumber() ){
+            
+            //Se a conta não possuir dívidas, então o procedimento de saque continua:
+            if( ce.getAmount() > 0 ){
+                double saque = Double.parseDouble(JOptionPane.showInputDialog("Digite um valor para sacar. R$ ", "Saque conta-especial"));
+            
+                String[] options = {"Confirmar", "Cancelar"};
+                //Janela de confirmação do saque:
+                int resposta = JOptionPane.showOptionDialog(null, "Clique Confirmar para sacar da conta:\n\nConta: "+ce.countType()+"\n"
+                    + "Correntista: "+ce.getName()+"\nNúmero: "+ce.getNumber()+"\nSaldo atual: R$ "+ce.getAmount()+"\nSaque: R$"+saque,
+                    "Confirmação de saque", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
 
+                if( resposta == 0 ){
+
+                    //Variável booleana que checa se o valor está disponível na conta(verificar método withdraw na classe Contas):
+                    boolean canWithdraw = ce.withdraw(saque);
+
+                    if( canWithdraw == true ){
+
+                        JOptionPane.showMessageDialog(null, "Saque realizado com sucesso!\nConta: "+ce.countType()+"\n"
+                        + "Correntista: "+ce.getName()+"\nNúmero: "+ce.getNumber()+"\nSaldo atual: R$ "+ce.getAmount());
+
+                    }else{
+
+                        //Se não houver dinheiro suficiente na conta, uma mensagem de aviso informará
+                        //ao usuário que o dinheiro que falta será retirado do limite e o usuário 
+                        //ficará com multa na conta:
+                        resposta = JOptionPane.showOptionDialog(null, "Clique Confirmar para retirar do limite com multa de R$ "+penalty+"\n"
+                                + "Limite atual: R$ "+ce.getLimit(), "Confirmação de retirada do limite",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+                        if( resposta == 0 ){
+
+                            //Variável booleana que verifica se o limite cobre o restante do saque que falta:
+                            boolean limitOutOfBounds = ce.discount(penalty, saque);
+
+                            if( limitOutOfBounds == true ){
+
+                                JOptionPane.showMessageDialog(null, "O limite não é suficiente para cobrir o restante do saque!", "Limite insuficiente", 
+                                        JOptionPane.WARNING_MESSAGE);
+
+                            }else{
+                                //Mensagem de confirmação da realização do saque:
+                                JOptionPane.showMessageDialog(null , "Saque realizado com sucesso!", "Saque sucedido", JOptionPane.INFORMATION_MESSAGE);
+                            }
+
+                        }else{
+                            
+                            //Mensagem de cancelamento do saque:
+                            JOptionPane.showMessageDialog(null, "Saque cancelado com sucesso!", "Cancelamento de saque", JOptionPane.INFORMATION_MESSAGE);
+
+                        }
+                    }
+
+                }else{
+
+                    JOptionPane.showMessageDialog(null, "Saque cancelado com sucesso!", "Cancelamento de saque", JOptionPane.INFORMATION_MESSAGE);
+
+                }
+            }else{
+                
+                //Se o usuário possuir dívidas na conta, uma aviso será dado e uma sugestão de depósito é dada ao usuário juntamente
+                //com a dívida que deve quitar com o banco:
+                JOptionPane.showMessageDialog(null, "Saque cancelado! Você possui dívidas na sua conta, realize um depósito para pagá-las\n\n"
+                        + "Conta: "+ce.countType()+"\nNúmero: "+ce.getNumber()+"\nCorrentista: "+ce.getName()+"\nSaldo: R$ "+ce.getAmount(), 
+                        "Erro de saque", JOptionPane.WARNING_MESSAGE);
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Número de conta inválido!", "Erro conta-especial", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_btnSaqueActionPerformed
 
     //MÉTODO PARA DEPÓSITO:
@@ -211,6 +278,70 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDepositActionPerformed
 
+    //Método para ver saldos ao apertar no botão 'ver saldos':
+    private void btnSaldosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaldosActionPerformed
+        // Amostragem de dados a respeito das contas comuns, poupanças e especiais:
+        JOptionPane.showMessageDialog(null, "===Conta comum===\n\nCorrentista: "+cc.getName()+"\nNúmero: "+cc.getNumber()+"\nSaldo: R$ "+cc.getAmount()+
+                "\n\n"
+                + "===Conta Poupança===\n\nCorrentista: "+cp.getName()+"\nNúmero: "+cp.getNumber()+"\nSaldo: R$ "+cp.getAmount()+"\n\n"
+                        + "===Conta Especial===\n\nCorrentista: "+ce.getName()+"\nNúmero: "+ce.getNumber()+"\nSaldo: R$ "+ce.getAmount(),
+                            "Informações Contas",
+                        JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnSaldosActionPerformed
+
+    private void btnReajustActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReajustActionPerformed
+        // Checagem de validade do número da conta poupança:
+        int number = Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número da conta na qual deseja que o reajuste seja efetuado", 
+                "Reajuste", JOptionPane.INFORMATION_MESSAGE));
+        
+        if( number == cp.getNumber() ){
+            String[] options = {"Confirmar", "Cancelar"};
+            //Realiza o ajuste de 10% para o botão 'cancelar' ou da taxa digitada para o botão 'confirmar':
+            int resposta = JOptionPane.showOptionDialog(null, "Clique Confirmar para aplicar a taxa de reajuste de "+tax, "Informação", 
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+            if( resposta == 0 ){
+                //Se o botão confirmar for clicado, irá aparecer uma janela com as informações de confirmação da taxa de reajuste e da conta:
+                 int confirmReajust = JOptionPane.showOptionDialog(null, "Conta: "+cp.countType()+"\n Titular: "+cp.getName()+"\n Número da conta: "
+                         +cp.getNumber()+"\n"+ "Taxa de Reajuste: "+tax+"\n Clique em 'Confirmar' para realizar o reajuste.", "Confirmação", 
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+                 if( confirmReajust == 0 ){
+                     //Confirmação de reajuste da conta com a taxa informada pelo usuário(tax):
+                     cp.reajust(tax);
+                     JOptionPane.showMessageDialog(null, "Reajuste realizado com sucesso!\n\nConta: "+cp.countType()+"\nTitular: "+cp.getName()+"\n"
+                             + "Número da conta: "+cp.getNumber()+"\nNovo saldo: R$ "+cp.getAmount(), "Reajuste confirmado", JOptionPane.INFORMATION_MESSAGE);
+                 }else{
+                     //Confirmação de cancelamento do reajuste:
+                     JOptionPane.showMessageDialog(null, "Reajuste cancelado com sucesso!", "Reajuste cancelado", JOptionPane.INFORMATION_MESSAGE);
+                 }
+            }else{
+                //Mensagem de confirmação de reajuste de 0.1(10%) na conta informada:
+                 int confirmReajust = JOptionPane.showOptionDialog(null, "Conta: "+cp.countType()+"\n Titular: "+cp.getName()+"\n Número da conta: "+cp.getNumber()+"\n"
+                        + "Taxa de Reajuste: 0.1\n Clique em 'Confirmar' para realizar o reajuste.", "Confirmação", 
+                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+                 if( confirmReajust == 0 ){
+                     //Confirmação de reajuste de 0.1(10%) na conta informada:
+                     cp.reajust(0.1);
+                     JOptionPane.showMessageDialog(null, "Reajuste realizado com sucesso!\n\nConta: "+cp.countType()+"\nTitular: "+cp.getName()+"\n"
+                             + "Número da conta: "+cp.getNumber()+"\nNovo saldo: R$ "+cp.getAmount(), "Reajuste confirmado", JOptionPane.INFORMATION_MESSAGE);
+                 }else{
+                     //Confirmação de cancelamento do reajuste:
+                     JOptionPane.showMessageDialog(null, "Reajuste cancelado com sucesso!", "Reajuste cancelado", JOptionPane.INFORMATION_MESSAGE);
+                 }
+            }
+        }else{
+            //Se o número de conta for inválido(não encontrado), então uma mensagem de erro aparece na tela:
+            JOptionPane.showMessageDialog(null, "Número de conta poupança inválido!", "Erro de conta", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnReajustActionPerformed
+
+    private void btnQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitActionPerformed
+        //Método que fecha o JFrame aberto:
+        dispose();
+    }//GEN-LAST:event_btnQuitActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -252,21 +383,20 @@ public class Principal extends javax.swing.JFrame {
             }
         */
         
-        
         JOptionPane.showMessageDialog(null, "Seja bem-vindo ao sistema bancário!", "Boas-vindas", JOptionPane.INFORMATION_MESSAGE);
         JOptionPane.showMessageDialog(null, "Prosseguiremos com os seus dados a respeito da conta-comum", "Conta-comum", JOptionPane.INFORMATION_MESSAGE);
         
         /*
             Preenchimento das regras de negócio(já definidas nas classes) para a Conta Comum:
         */
-        cc.setName(JOptionPane.showInputDialog(null, "Diigte seu nome: ", "Conta-comum"));
+        cc.setName(JOptionPane.showInputDialog(null, "Digite seu nome: "));
         boolean saldoCorreto = true;
         boolean numeroCorreto = true;
         
         //Uma estrutura para obrigar o usuário a digitar valores corretos para cada campo da conta comum:
         do{
-            cc.setNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número da conta: ", "Conta-comum")));
-            cc.initAmount(Double.parseDouble(JOptionPane.showInputDialog(null, "Digite o saldo inicial: ", "Conta-comum")));
+            cc.setNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número da conta: ")));
+            cc.initAmount(Double.parseDouble(JOptionPane.showInputDialog(null, "Digite o saldo inicial: ")));
             
             //Os dados só serão gravados se o saldo(amount) for maior ou igual a 0 e o número da conta maior do que 0:
             if(cc.getAmount() < 0 ){
@@ -287,15 +417,15 @@ public class Principal extends javax.swing.JFrame {
         /*
             Preenchimento das regras de negócio(já definidas nas classes) para a Conta Poupança:
         */
-        cp.setName(JOptionPane.showInputDialog(null, "Diigte seu nome: ", "Conta-poupança"));
-        tax = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite a taxa de reajuste: ", "Conta-poupança"));
+        cp.setName(JOptionPane.showInputDialog(null, "Digite seu nome: "));
+        tax = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite a taxa de reajuste(em decimais): "));
         saldoCorreto = true;
         numeroCorreto = true;
         
         //Uma estrutura para obrigar o usuário a digitar valores corretos para cada campo da conta Poupança:
         do{
-            cp.setNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número da conta: ", "Conta-poupança")));
-            cp.initAmount(Double.parseDouble(JOptionPane.showInputDialog(null, "Digite o saldo inicial: ", "Conta-poupança")));
+            cp.setNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número da conta: ")));
+            cp.initAmount(Double.parseDouble(JOptionPane.showInputDialog(null, "Digite o saldo inicial: ")));
             
             //Os dados só serão gravados se o saldo(amount) for maior ou igual a 0 e o número da conta maior do que 0:
             if(cp.getAmount() < 0 ){
@@ -316,16 +446,17 @@ public class Principal extends javax.swing.JFrame {
         /*
             Preenchimento das regras de negócio(já definidas nas classes) para a Conta Especial:
         */
-        ce.setName(JOptionPane.showInputDialog(null, "Diigte seu nome: ", "Conta-especial"));
+        ce.setName(JOptionPane.showInputDialog(null, "Digite seu nome: "));
         saldoCorreto = true;
         numeroCorreto = true;
         boolean limiteCorreto = true;
         
         //Uma estrutura para obrigar o usuário a digitar valores corretos para cada campo da conta especial:
         do{
-            ce.setLimit(Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o limite da conta: ", "Conta-especial")));
-            ce.setNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número da conta: ", "Conta-especial")));
-            ce.initAmount(Double.parseDouble(JOptionPane.showInputDialog(null, "Digite o saldo inicial: ", "Conta-esécial")));
+            ce.setLimit(Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o limite da conta: ")));
+            ce.setNumber(Integer.parseInt(JOptionPane.showInputDialog(null, "Digite o número da conta: ")));
+            ce.initAmount(Double.parseDouble(JOptionPane.showInputDialog(null, "Digite o saldo inicial: ")));
+            penalty = Double.parseDouble(JOptionPane.showInputDialog(null, "Digite quanto será a multa(em decimais): R$"));
             
             //Os dados só serão gravados se o saldo(amount) e o limite forem maiores ou iguais a 0 e o número da conta maior do que 0:
             if(ce.getAmount() < 0 ){
@@ -356,9 +487,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnDeposit;
     private javax.swing.JButton btnQuit;
     private javax.swing.JButton btnReajust;
+    private javax.swing.JButton btnSaldos;
     private javax.swing.JButton btnSaque;
     private javax.swing.JButton btnTransfer;
-    private javax.swing.JButton btnVerSaldo;
     private javax.swing.JLabel lblTexto;
     // End of variables declaration//GEN-END:variables
 }

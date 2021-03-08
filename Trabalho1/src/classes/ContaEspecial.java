@@ -11,8 +11,18 @@ public class ContaEspecial extends Contas{
             return this.limit;
         }
         
-	public void discount(double penalty) {
-		
+        
+	public boolean discount(double penalty, double saque) {
+		double difference = this.getAmount() - saque;
+                boolean limitOutOfBounds = false;
+                
+                if( limit < -(difference) ){
+                    limitOutOfBounds = true;
+                }else{
+                    this.initAmount(difference*(1+penalty));
+                }
+              
+                return limitOutOfBounds;
 	}
 	
 	public String countType() {

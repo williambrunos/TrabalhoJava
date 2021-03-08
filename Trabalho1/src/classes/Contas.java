@@ -36,7 +36,7 @@ public class Contas {
 		this.amount += value;
 	}
 	
-	public Boolean withdraw(double value) {
+	public boolean withdraw(double value) {
 		if (this.amount >= value) {
 			this.canWithdraw = true;
 			this.amount -= value;
@@ -47,8 +47,8 @@ public class Contas {
 		return this.canWithdraw;
 	}
 	
-	public void transfer(int count1, int count2) {
-		
+	public void transfer(int count1, int count2, double value) {
+            
 	}
 	
 	public String countType() {
