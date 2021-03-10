@@ -84,7 +84,7 @@ reajuste de 10% é realizado na conta e uma janela de "reajuste realizado com su
 Assim como anteriormente, se a opção "cancelar" for escolhida, então uma mensagem de "reajuste cancelado com sucesso" aparece e o usuário
 é redirecionado para a tela principal de opções.
 
-* 2.5) Ver Saldos: *
+* 2.5) Ver Saldos: 
 
 O botão "ver saldos", quando clicado, mostra em uma janela os dados a respeito das contas instanciadas no programa, conta-comum,
 poupança, especial. Nessa janela, é possível ver o nome dos correntistas, números das contas e saldos atualizados de cada uma.
