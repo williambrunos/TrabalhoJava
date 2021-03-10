@@ -38,7 +38,7 @@ Em janelas diferentes, será coletado o nome do correntista, número da conta, m
 do limite da conta especial, o limite da conta e o saldo inicial da conta. Da mesma forma, caso algum dado seja informado com
 erro, então uma janela de erro irá aparecer e forçará o usuário a digitar os dados corretamente.
 
-* === PARTE 2 - TELA PRINCIPAL === *:
+** === PARTE 2 - TELA PRINCIPAL === **:
 
 A tela principal feita com swing, é uma tela com alguns botões com certas funcionalidades a respeito das três instâncias
 de contas criadas, conta-comum, popança e especial. Em todas as operações, o usuário é levado de volta à tela principal
