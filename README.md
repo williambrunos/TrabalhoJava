@@ -17,7 +17,7 @@ métodos são trasnferidos por herança para as classes ContaPoupanca(cp) e Cont
 
 	*** ============================= MANUAL DE USO =============================  ***
 
-*** === PARTE 1 - COLETA DE DADOS === ***:
+* === PARTE 1 - COLETA DE DADOS === *:
 
 Após colar a pasta "trablho-01-Java" no path onde seus projetos da IDE são guardados, abra a classe Principal,
 compile e execute a aplicação.
@@ -38,14 +38,14 @@ Em janelas diferentes, será coletado o nome do correntista, número da conta, m
 do limite da conta especial, o limite da conta e o saldo inicial da conta. Da mesma forma, caso algum dado seja informado com
 erro, então uma janela de erro irá aparecer e forçará o usuário a digitar os dados corretamente.
 
-*** === PARTE 2 - TELA PRINCIPAL === ***:
+* === PARTE 2 - TELA PRINCIPAL === *:
 
 A tela principal feita com swing, é uma tela com alguns botões com certas funcionalidades a respeito das três instâncias
 de contas criadas, conta-comum, popança e especial. Em todas as operações, o usuário é levado de volta à tela principal
 com as operações, saindo apenas quando clicar em "sair".
 
 
-*** * 2.1) Saque: ***
+* * 2.1) Saque: *
 
 O botão de saque, quando clicado, perguntará ao usuário o número da conta
 especial de onde deseja realizar o saque. Caso o número de conta seja inváido, uma mensagem de erro será informada e retornará
@@ -60,7 +60,7 @@ para anulá-la. Ademais, caso o valor do saque seja tão grande que nem o limite
 usuário informando esta situação e o saque não será realizado. Após o final do saque sucedido, uma mensagem de confirmação aparece
 para o usuário informando os dados da conta, incluindo o saldo com a multa aplicada.
 
-*** * 2.2) Depósito: ***
+* * 2.2) Depósito: *
 
 O botão depósito, quando clicado, perguntará ao usuário o número da conta da qual deseja realizar a operação, seja ela uma
 conta-comum, poupança ou especial. Após isso, é solicitado o valor a ser depositado na conta informada e uma janela de 
@@ -68,10 +68,10 @@ confirmação com os dados do correntista, saldo na conta ,número da conta e va
 o valor é depositado na conta informada e o novo saldo é informado ao usuário. Caso seja cancelado, uma mensagem de sucesso de
 cancelamento é mostrada ao usuário. 
 
-*** * 2.3) Transferência: ***
+* * 2.3) Transferência: *
 
 
-*** * 2.4) Reajustar: ***
+* * 2.4) Reajustar: *
 
 O botão "reajustar", quando clicado, pede ao usuário o número de uma conta poupança para realizar o reajuste no saldo.
 Se o número for inválido, uma mensagem de erro aparecerá para o usuário e ele retornará a tela principal. Se o número for
@@ -84,13 +84,13 @@ reajuste de 10% é realizado na conta e uma janela de "reajuste realizado com su
 Assim como anteriormente, se a opção "cancelar" for escolhida, então uma mensagem de "reajuste cancelado com sucesso" aparece e o usuário
 é redirecionado para a tela principal de opções.
 
-*** * 2.5) Ver Saldos: ***
+* * 2.5) Ver Saldos: *
 
 O botão "ver saldos", quando clicado, mostra em uma janela os dados a respeito das contas instanciadas no programa, conta-comum,
 poupança, especial. Nessa janela, é possível ver o nome dos correntistas, números das contas e saldos atualizados de cada uma.
 
 
-*** * 2.6) Sair: ***
+* * 2.6) Sair: *
 
 O botão sair simplesmente faz a tela principal ser fechada. Essa janela principal é fechada se, e somente se esse botão for clicado.
 
