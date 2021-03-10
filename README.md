@@ -15,7 +15,7 @@ que explicam cada método e cada atributo. No entanto, basicamente a classe Cont
 outras classes, exceto a Principal, e serve para a criação da instância conta-comum(cc) e seus atributos e
 métodos são trasnferidos por herança para as classes ContaPoupanca(cp) e ContaEspecial(ce).
 
-	* ============================= MANUAL DE USO =============================  *
+	*** ============================= MANUAL DE USO =============================  ***
 
 *** === PARTE 1 - COLETA DE DADOS === ***:
 
