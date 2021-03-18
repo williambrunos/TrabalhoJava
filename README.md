@@ -1,7 +1,5 @@
 # TrabalhoJava
 
-*** === TRABALHO 1 JAVA TÉCNICAS DE PROGRAMAÇÃO === ***
-
 Este é um arquivo readme que irá explicar como a aplicação em java funciona, o que é necessário
 fazer para rodá-la em sua máquina e o passo a passo de como o programa funciona.
 
@@ -43,6 +41,8 @@ erro, então uma janela de erro irá aparecer e forçará o usuário a digitar o
 A tela principal feita com swing, é uma tela com alguns botões com certas funcionalidades a respeito das três instâncias
 de contas criadas, conta-comum, popança e especial. Em todas as operações, o usuário é levado de volta à tela principal
 com as operações, saindo apenas quando clicar em "sair".
+
+![telaprincipal](https://user-images.githubusercontent.com/70725719/110652577-4441a980-819b-11eb-961e-5c2bc6e29164.PNG)
 
 
 * 2.1) Saque: 
