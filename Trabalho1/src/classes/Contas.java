@@ -1,5 +1,7 @@
 package classes;
 
+import javax.swing.JOptionPane;
+
 public class Contas {
 	
 	private boolean canWithdraw;
@@ -47,8 +49,82 @@ public class Contas {
 		return this.canWithdraw;
 	}
 	
-	public void transfer(int count1, int count2, double value) {
+        //Desconta da conta 1 e deposita na conta 2:
+	public boolean transfer(int count1, int count2, double value) {
+            boolean canDiscount = true;
+            boolean canWithdraw = true;
             
+            if( Principal.cc.getNumber() == count1 && Principal.cp.getNumber() == count2){
+                
+                canWithdraw = Principal.cc.withdraw(value);
+                
+                if( canWithdraw == true ){
+                    canDiscount = true;
+                    Principal.cp.deposit(value);
+                }else{
+                    canDiscount = false;
+                }
+                
+            }else if( Principal.cc.getNumber() == count1 && Principal.ce.getNumber() == count2 ){
+                
+                canWithdraw = Principal.cc.withdraw(value);
+                
+                if( canWithdraw == true ){
+                    canDiscount = true;
+                    Principal.ce.deposit(value);
+                }else{
+                    canDiscount = false;
+                }
+                
+            }else if( Principal.cp.getNumber() == count1 && Principal.cc.getNumber() == count2 ){
+                
+                canWithdraw = Principal.cp.withdraw(value);
+                
+                if( canWithdraw == true ){
+                    canDiscount = true;
+                    Principal.cc.deposit(value);
+                }else{
+                    canDiscount = false;
+                }
+                
+            }else if( Principal.cp.getNumber() == count1 && Principal.ce.getNumber() == count2 ){
+                
+                canWithdraw = Principal.cp.withdraw(value);
+                
+                if( canWithdraw == true ){
+                    canDiscount = true;
+                    Principal.ce.deposit(value);
+                }else{
+                    canDiscount = false;
+                }
+                
+            }else if( Principal.ce.getNumber() == count1 && Principal.cc.getNumber() == count2 ){
+                
+                canWithdraw = Principal.ce.withdraw(value);
+                
+                if( canWithdraw == true ){
+                    canDiscount = true;
+                    Principal.cc.deposit(value);
+                }else{
+                    canDiscount = false;
+                }
+                
+            }else if( Principal.ce.getNumber() == count2 && Principal.cp.getNumber() == count2 ){
+                
+                canWithdraw = Principal.ce.withdraw(value);
+                
+                if( canWithdraw == true ){
+                    canDiscount = true;
+                    Principal.cp.deposit(value);
+                }else{
+                    canDiscount = false;
+                }
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "Erro! Números de conta inváidos!", "Erro de transferência", JOptionPane.WARNING_MESSAGE);
+                canDiscount = false;
+            }
+            return canDiscount;
 	}
 	
 	public String countType() {

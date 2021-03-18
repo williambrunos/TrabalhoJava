@@ -1,4 +1,5 @@
 package classes;
+import static java.awt.SystemColor.info;
 import javax.swing.JOptionPane;
 
 /**
@@ -63,6 +64,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btnTransfer.setText("Transferência");
+        btnTransfer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransferActionPerformed(evt);
+            }
+        });
 
         btnReajust.setText("Reajustar");
         btnReajust.addActionListener(new java.awt.event.ActionListener() {
@@ -135,6 +141,7 @@ public class Principal extends javax.swing.JFrame {
         
         //Variável que guarda o número da conta cujo saque será realizado:
         int countNumber = Integer.parseInt(JOptionPane.showInputDialog("Digite o número da conta: ", "Saque de conta-especial"));
+        String[] options = {"Confirmar", "Cancelar"};
         
         //Se o número da conta for válido para o número da conta especial, o procedimento será realizado, se não uma mensagem
         //de erro aparecerá na tela:
@@ -142,9 +149,8 @@ public class Principal extends javax.swing.JFrame {
             
             //Se a conta não possuir dívidas, então o procedimento de saque continua:
             if( ce.getAmount() > 0 ){
-                double saque = Double.parseDouble(JOptionPane.showInputDialog("Digite um valor para sacar. R$ ", "Saque conta-especial"));
-            
-                String[] options = {"Confirmar", "Cancelar"};
+                double saque = Double.parseDouble(JOptionPane.showInputDialog("Digite um valor para sacar. R$ "));
+
                 //Janela de confirmação do saque:
                 int resposta = JOptionPane.showOptionDialog(null, "Clique Confirmar para sacar da conta:\n\nConta: "+ce.countType()+"\n"
                     + "Correntista: "+ce.getName()+"\nNúmero: "+ce.getNumber()+"\nSaldo atual: R$ "+ce.getAmount()+"\nSaque: R$"+saque,
@@ -201,11 +207,52 @@ public class Principal extends javax.swing.JFrame {
                 
                 //Se o usuário possuir dívidas na conta, uma aviso será dado e uma sugestão de depósito é dada ao usuário juntamente
                 //com a dívida que deve quitar com o banco:
-                JOptionPane.showMessageDialog(null, "Saque cancelado! Você possui dívidas na sua conta, realize um depósito para pagá-las\n\n"
-                        + "Conta: "+ce.countType()+"\nNúmero: "+ce.getNumber()+"\nCorrentista: "+ce.getName()+"\nSaldo: R$ "+ce.getAmount(), 
-                        "Erro de saque", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Saque cancelado! Você possui dívidas na sua conta ou saldo"
+                        + "zerado, realize um depósito para pagá-las\n\nConta: "+ce.countType()+"\nNúmero: "+ce.getNumber()+"\nCorrentista: "
+                        +ce.getName()+"\nSaldo: R$ "+ce.getAmount(), "Erro de saque", JOptionPane.WARNING_MESSAGE);
             }
             
+        }else if ( countNumber == cc.getNumber() ){
+            
+            double value = Double.parseDouble(JOptionPane.showInputDialog("Digite um valor para sacar da conta-comum R$: "));
+            int resposta = JOptionPane.showOptionDialog(null, "Clique Confirmar o saque\n\nConta: "+cc.countType()+"\nCorrentista: "+cc.getName()+
+                    "\nNúmero: "+cc.getNumber()+"\nSaldo: R$ "+cc.getAmount()+"Saque: R$ "+value, "Confirmação de saque", JOptionPane.DEFAULT_OPTION, 
+                    JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+            if( resposta == 0 ){
+                boolean canWithdraw = cc.withdraw(value);
+                
+                if( canWithdraw == true ){
+                    JOptionPane.showMessageDialog(null, "Saque realizado com sucesso!\n\nConta: "+cc.countType()+"\nCorrentista: "+cc.getName()+""
+                            + "\nNúmero: "+cc.getNumber()+"Novo saldo: R$ "+cc.getAmount(), "Confirmação de saque", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Erro! Saldo insuficiente na conta, realize um depósito para continuar", "Erro no saque", 
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Saque cancelado com sucesso!", "Cancelamento de saque", JOptionPane.INFORMATION_MESSAGE);
+            }
+           
+        }else if( countNumber == cp.getNumber() ){
+            
+            double value = Double.parseDouble(JOptionPane.showInputDialog("Digite um valor para sacar da conta-poupança R$: "));
+            int resposta = JOptionPane.showOptionDialog(null, "Clique Confirmar o saque\n\nConta: "+cp.countType()+"\nCorrentista: "+cp.getName()+
+                    "\nNúmero: "+cp.getNumber()+"\nSaldo: R$ "+cp.getAmount()+"\nSaque: R$ "+value, "Confirmação de saque", JOptionPane.DEFAULT_OPTION, 
+                    JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+            if( resposta == 0 ){
+                boolean canWithdraw = cp.withdraw(value);
+                
+                if( canWithdraw == true ){
+                    JOptionPane.showMessageDialog(null, "Saque realizado com sucesso!\n\nConta: "+cp.countType()+"\nCorrentista: "+cp.getName()+""
+                            + "\nNúmero: "+cp.getNumber()+"\nNovo saldo: R$ "+cp.getAmount(), "Confirmação de saque", JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Erro! Saldo insuficiente na conta, realize um depósito para continuar", "Erro no saque", 
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Saque cancelado com sucesso!", "Cancelamento de saque", JOptionPane.INFORMATION_MESSAGE);
+            }
         }else{
             JOptionPane.showMessageDialog(null, "Número de conta inválido!", "Erro conta-especial", JOptionPane.WARNING_MESSAGE);
         }
@@ -342,6 +389,33 @@ public class Principal extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnQuitActionPerformed
 
+    private void btnTransferActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferActionPerformed
+        // TODO add your handling code here:
+        int count1 = Integer.parseInt(JOptionPane.showInputDialog("Digite o número da primeira conta(será retirado dinheiro): "));
+        int count2 = Integer.parseInt(JOptionPane.showInputDialog("Digite o número da segunda conta(será depositado dinheiro): "));
+        double value = Double.parseDouble(JOptionPane.showInputDialog("Digite o valor R$: "));
+        
+        String[] options = {"Confirmar", "Cancelar"};
+        int resposta = JOptionPane.showOptionDialog(null, "Clique Confirmar para trasnferir R$ "+value+" da conta: "+count1+" para a conta:"
+                + ""+count2, "Informação", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+        if( resposta == 0 ){
+            boolean canDiscount = cc.transfer(count1, count2, value);
+            
+            if( canDiscount == true){
+                JOptionPane.showMessageDialog(null, "Trasnferência realizada com sucesso!", "Confirmação de transferência", 
+                        JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(null, "Erro! A transferência não pôde ser efetuada. Cheque os saldos das contas no botão"
+                        + "'ver saldos' para verificar se são suficientes para realizar a transferêcia", "Erro de trasnferência", JOptionPane.WARNING_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Trasnferência cancelada com sucesso!", "Cancelamento de transferência", 
+                        JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_btnTransferActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -477,6 +551,7 @@ public class Principal extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            
             public void run() {
                 new Principal().setVisible(true);
             }
