@@ -1,7 +1,5 @@
 # TrabalhoJava
 
-*** === TRABALHO 1 JAVA TÉCNICAS DE PROGRAMAÇÃO === ***
-
 Este é um arquivo readme que irá explicar como a aplicação em java funciona, o que é necessário
 fazer para rodá-la em sua máquina e o passo a passo de como o programa funciona.
 
